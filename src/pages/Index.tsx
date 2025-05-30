@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Factory } from 'lucide-react';
 
@@ -275,7 +276,7 @@ const Index = () => {
                 <Factory size={32} />
               </div>
               <h3 className="text-xl font-bold mb-2">Website</h3>
-              <p className="text-gray-300">www.alghofran-plastic.com</p>
+              <p className="text-gray-300">www.ghofranplasticfactory.com</p>
             </div>
           </div>
         </div>
