@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Factory } from 'lucide-react';
 
@@ -56,12 +55,12 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-gradient-to-r from-red-800 via-red-700 to-red-600 text-white shadow-lg">
+      <header className="bg-gradient-to-r from-blue-800 via-blue-700 to-blue-600 text-white shadow-lg">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="bg-white rounded-lg p-2">
-                <span className="text-2xl font-bold text-red-700">GP</span>
+                <span className="text-2xl font-bold text-blue-700">GP</span>
               </div>
               <div>
                 <h1 className="text-xl font-bold">AL-Ghofran Plastic Factory</h1>
@@ -69,10 +68,10 @@ const Index = () => {
               </div>
             </div>
             <nav className="hidden md:flex space-x-6">
-              <a href="#home" className="hover:text-red-200 transition-colors">Home</a>
-              <a href="#about" className="hover:text-red-200 transition-colors">About</a>
-              <a href="#products" className="hover:text-red-200 transition-colors">Products</a>
-              <a href="#contact" className="hover:text-red-200 transition-colors">Contact</a>
+              <a href="#home" className="hover:text-blue-200 transition-colors">Home</a>
+              <a href="#about" className="hover:text-blue-200 transition-colors">About</a>
+              <a href="#products" className="hover:text-blue-200 transition-colors">Products</a>
+              <a href="#contact" className="hover:text-blue-200 transition-colors">Contact</a>
             </nav>
           </div>
         </div>
@@ -150,7 +149,7 @@ const Index = () => {
                   Our production facilities are equipped with the latest global machinery and operated under 
                   the supervision of qualified engineers to serve industrial and construction sectors.
                 </p>
-                <div className="flex items-center space-x-2 text-red-600 font-semibold">
+                <div className="flex items-center space-x-2 text-blue-600 font-semibold">
                   <Factory size={24} />
                   <span>ISO 9001:2015 Certified</span>
                 </div>
@@ -246,7 +245,7 @@ const Index = () => {
           <h2 className="text-4xl font-bold text-center mb-12">Contact Us</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="bg-red-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Mail size={32} />
               </div>
               <h3 className="text-xl font-bold mb-2">Email</h3>
@@ -254,7 +253,7 @@ const Index = () => {
             </div>
             
             <div className="text-center">
-              <div className="bg-red-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Phone size={32} />
               </div>
               <h3 className="text-xl font-bold mb-2">Phone & Fax</h3>
@@ -263,7 +262,7 @@ const Index = () => {
             </div>
             
             <div className="text-center">
-              <div className="bg-red-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <MapPin size={32} />
               </div>
               <h3 className="text-xl font-bold mb-2">Address</h3>
@@ -272,7 +271,7 @@ const Index = () => {
             </div>
             
             <div className="text-center">
-              <div className="bg-red-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Factory size={32} />
               </div>
               <h3 className="text-xl font-bold mb-2">Website</h3>
@@ -286,7 +285,7 @@ const Index = () => {
       <footer className="bg-black text-white py-8">
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <div className="bg-red-600 rounded-lg p-2">
+            <div className="bg-blue-600 rounded-lg p-2">
               <span className="text-xl font-bold">GP</span>
             </div>
             <div>
