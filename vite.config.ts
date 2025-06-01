@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/ghofran-plastic-slider-site",
+  base: "/",
   server: {
     host: "::",
     port: 8080,
