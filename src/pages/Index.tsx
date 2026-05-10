@@ -251,6 +251,7 @@ const Index = () => {
               </div>
               <h3 className="text-xl font-bold mb-2">Email</h3>
               <p className="text-gray-300">info@alghofran-plastic.com</p>
+               <p className="text-gray-300">Ibrahim3212@yahoo.com</p>
             </div>
             
             <div className="text-center">
