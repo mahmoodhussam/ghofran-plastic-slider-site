@@ -1,306 +1,411 @@
+import { useEffect, useState } from "react";
+import {
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  Factory,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
-import { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Factory } from 'lucide-react';
+import pprcImage from "@/assets/products/pprc.jpg.asset.json";
+import pprcSpecsImage from "@/assets/products/pprc_specs.jpg.asset.json";
+import hdpeImage from "@/assets/products/hdpe.jpg.asset.json";
+import hdpeSpecsImage from "@/assets/products/hdpe_specs.jpg.asset.json";
+import upvcImage from "@/assets/products/upvc.jpg.asset.json";
+import upvcSpecsImage from "@/assets/products/upvc_specs.jpg.asset.json";
+import corrugatedImage from "@/assets/products/corrugated.jpg.asset.json";
+import corrugatedSizesImage from "@/assets/products/corrugated_sizes.jpg.asset.json";
+import drainageImage from "@/assets/products/drainage.jpg.asset.json";
+import drainageSpecsImage from "@/assets/products/drainage_specs.jpg.asset.json";
+import cpvcImage from "@/assets/products/cpvc.jpg.asset.json";
+
+type Product = {
+  name: string;
+  description: string;
+  image: string;
+  details: string[];
+};
+
+type ProductCategory = {
+  name: string;
+  summary: string;
+  image: string;
+  products: Product[];
+};
+
+const slides = [
+  {
+    image: "/lovable-uploads/57419b09-c4f6-4586-b909-3fe62b90c14c.png",
+    title: "Al-Ghofran Plastic Factory",
+    subtitle: "Leading manufacturer of plastic pipes and fittings since 1996",
+  },
+  {
+    image: "/lovable-uploads/bf94f533-f033-4e25-b305-e6dc8dbcf76e.png",
+    title: "PPRC Pipes",
+    subtitle: "Hygienic piping for domestic hot and cold water networks",
+  },
+  {
+    image: "/lovable-uploads/ad453382-c59d-4165-8d3e-643eedd17d11.png",
+    title: "HDPE Pipes",
+    subtitle: "Durable piping for water, sewage, gas, and irrigation networks",
+  },
+  {
+    image: "/lovable-uploads/8efdc249-21bb-4064-a756-3bce47b5e61c.png",
+    title: "Electrical Conduits",
+    subtitle: "Professional protection for electrical and telecommunications networks",
+  },
+  {
+    image: "/lovable-uploads/fe48dce8-ddca-4737-a7f7-58db8bc3571e.png",
+    title: "Drainage & Duct Systems",
+    subtitle: "Complete drainage, waste, vent, and cable protection solutions",
+  },
+];
+
+const categories: ProductCategory[] = [
+  {
+    name: "PPRC Pipes",
+    summary: "Polypropylene random copolymer pipes for hot and cold water systems.",
+    image: pprcImage.url,
+    products: [
+      {
+        name: "PPRC PN 10 Pipe",
+        description: "A hygienic, non-toxic pipe for domestic cold-water installations and low-pressure networks.",
+        image: pprcImage.url,
+        details: ["DIN 8077 / DIN 8078", "Socket-weld connection", "Long service life"],
+      },
+      {
+        name: "PPRC PN 16 Pipe",
+        description: "A dependable pressure pipe for domestic water distribution, hospitals, and specialist networks.",
+        image: pprcSpecsImage.url,
+        details: ["Low pressure loss", "Corrosion resistant", "Available in multiple diameters"],
+      },
+      {
+        name: "PPRC PN 20 & PN 25 Pipe",
+        description: "Heavy-duty PPRC piping designed for hot-water lines, central heating, and industrial applications.",
+        image: pprcImage.url,
+        details: ["Hot and cold water", "Frost resistant", "Thermal-weld fittings"],
+      },
+    ],
+  },
+  {
+    name: "HDPE Pipes",
+    summary: "High-density polyethylene pipes for water, sewage, gas, and irrigation.",
+    image: hdpeImage.url,
+    products: [
+      {
+        name: "HDPE Water Pipe",
+        description: "Flexible black polyethylene pressure pipe for drinking-water distribution and irrigation networks.",
+        image: hdpeImage.url,
+        details: ["DIN 8074 / DIN 8075", "High impact resistance", "Corrosion resistant"],
+      },
+      {
+        name: "HDPE Sewage Pipe",
+        description: "Durable piping for municipal and industrial sewage lines with excellent chemical resistance.",
+        image: hdpeSpecsImage.url,
+        details: ["Chemical resistant", "Flexible installation", "Multiple pressure ratings"],
+      },
+      {
+        name: "Colored HDPE Utility Pipe",
+        description: "Color-coded HDPE pipe for gas, telecom, water, and specialist utility networks.",
+        image: hdpeImage.url,
+        details: ["Easy network identification", "Long coil lengths", "Outdoor durability"],
+      },
+    ],
+  },
+  {
+    name: "UPVC Pipes",
+    summary: "Rigid UPVC pipes for electrical, telecommunications, and water applications.",
+    image: upvcImage.url,
+    products: [
+      {
+        name: "UPVC Electrical Conduit",
+        description: "Rigid conduit made to protect electrical wiring in residential, commercial, and industrial projects.",
+        image: upvcImage.url,
+        details: ["BS 6009 / BS 4607", "Flame retardant", "Light, medium, and heavy grades"],
+      },
+      {
+        name: "UPVC Telecom Conduit",
+        description: "Smooth, insulating conduit for telecommunications and structured cabling networks.",
+        image: upvcSpecsImage.url,
+        details: ["Electrical insulation", "Easy cable pulling", "Multiple wall thicknesses"],
+      },
+      {
+        name: "UPVC Water Pipe",
+        description: "Rigid, corrosion-resistant pipe for cold-water supply and pressure applications.",
+        image: upvcImage.url,
+        details: ["ASTM D-1785 / 1786", "Low maintenance", "Consistent internal bore"],
+      },
+    ],
+  },
+  {
+    name: "CPVC Pipes",
+    summary: "Chlorinated PVC pipes for hot and cold water installations.",
+    image: cpvcImage.url,
+    products: [
+      {
+        name: "CPVC Hot Water Pipe",
+        description: "Heat-resistant piping for domestic hot-water distribution and commercial plumbing.",
+        image: cpvcImage.url,
+        details: ["ASTM F-441", "Hot and cold water", "Chemical resistant"],
+      },
+      {
+        name: "CPVC Industrial Pipe",
+        description: "A robust CPVC solution for demanding industrial processes and corrosive fluid lines.",
+        image: drainageImage.url,
+        details: ["High temperature performance", "Low thermal conductivity", "Long service life"],
+      },
+    ],
+  },
+  {
+    name: "Corrugated Ducts",
+    summary: "Flexible corrugated ducts for electrical, telecom, and cable protection.",
+    image: corrugatedImage.url,
+    products: [
+      {
+        name: "Electrical Corrugated Duct",
+        description: "Flexible duct that shields power cables from impact, moisture, and difficult underground conditions.",
+        image: corrugatedImage.url,
+        details: ["IS 14930 compliant", "Flexible routing", "Impact resistant"],
+      },
+      {
+        name: "Telecommunications Duct",
+        description: "Color-coded duct for protecting data and telecommunications cables across infrastructure networks.",
+        image: corrugatedSizesImage.url,
+        details: ["8–50 mm sizes", "Weather resistant", "Easy installation"],
+      },
+      {
+        name: "Underground Cable Duct",
+        description: "Durable corrugated protection for underground cable runs and concealed utility networks.",
+        image: corrugatedImage.url,
+        details: ["Long continuous lengths", "Abrasion resistant", "Multiple colors available"],
+      },
+    ],
+  },
+  {
+    name: "Drainage Systems",
+    summary: "Complete soil, waste, drainage, and vent piping solutions.",
+    image: drainageImage.url,
+    products: [
+      {
+        name: "Drain, Waste & Vent Pipe",
+        description: "A complete DWV solution for carrying wastewater and safely venting residential and commercial systems.",
+        image: drainageImage.url,
+        details: ["ASTM D-2665", "40–160 mm metric range", "Smooth internal surface"],
+      },
+      {
+        name: "UPVC Drainage Pipe",
+        description: "Rigid drainage pipe for soil, waste discharge, and above-ground or underground installations.",
+        image: drainageSpecsImage.url,
+        details: ["DIN 8061 / 8062", "BS 3505", "Multiple wall thicknesses"],
+      },
+      {
+        name: "Vent Pipe",
+        description: "Lightweight vent piping designed to maintain airflow and pressure balance in drainage systems.",
+        image: drainageImage.url,
+        details: ["Lightweight handling", "Secure jointing", "Low maintenance"],
+      },
+    ],
+  },
+];
 
 const Index = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  
-  const slides = [
-    {
-      id: 1,
-      image: '/lovable-uploads/57419b09-c4f6-4586-b909-3fe62b90c14c.png',
-      title: 'Al-Ghofran Plastic Factory',
-      subtitle: 'Leading manufacturer of plastic pipes and fittings since 1996'
-    },
-    {
-      id: 2,
-      image: '/lovable-uploads/bf94f533-f033-4e25-b305-e6dc8dbcf76e.png',
-      title: 'PPRC Pipes',
-      subtitle: 'High-quality polypropylene random copolymer pipes'
-    },
-    {
-      id: 3,
-      image: '/lovable-uploads/ad453382-c59d-4165-8d3e-643eedd17d11.png',
-      title: 'HDPE Pipes',
-      subtitle: 'Durable high-density polyethylene piping solutions'
-    },
-    {
-      id: 4,
-      image: '/lovable-uploads/8efdc249-21bb-4064-a756-3bce47b5e61c.png',
-      title: 'Electrical Conduits',
-      subtitle: 'Professional electrical and telecommunications network solutions'
-    },
-    {
-      id: 5,
-      image: '/lovable-uploads/fe48dce8-ddca-4737-a7f7-58db8bc3571e.png',
-      title: 'Drainage Systems',
-      subtitle: 'Complete drainage, waste and vent piping solutions'
-    }
-  ];
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    const timer = window.setInterval(() => {
+      setCurrentSlide((previous) => (previous + 1) % slides.length);
     }, 5000);
-    return () => clearInterval(timer);
-  }, [slides.length]);
+    return () => window.clearInterval(timer);
+  }, []);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  const category = selectedCategory === null ? null : categories[selectedCategory];
+  const product = category?.products[selectedProduct];
+
+  const openCategory = (index: number) => {
+    setSelectedCategory(index);
+    setSelectedProduct(0);
   };
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  const changeProduct = (direction: number) => {
+    if (!category) return;
+    setSelectedProduct((previous) =>
+      (previous + direction + category.products.length) % category.products.length,
+    );
   };
+
+  useEffect(() => {
+    if (!category) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowRight") changeProduct(1);
+      if (event.key === "ArrowLeft") changeProduct(-1);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [category]);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-red-800 via-red-700 to-red-600 text-white shadow-lg">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="bg-white rounded-lg p-2">
-                <span className="text-2xl font-bold text-red-700">GP</span>
-              </div>
-              <div>
-                <h1 className="text-xl font-bold">AL-Ghofran Plastic Factory</h1>
-                <p className="text-sm opacity-90">مصنع الغفران للبلاستيك</p>
-              </div>
-            </div>
-            <nav className="hidden md:flex space-x-6">
-              <a href="#home" className="hover:text-red-200 transition-colors">Home</a>
-              <a href="#about" className="hover:text-red-200 transition-colors">About</a>
-              <a href="#products" className="hover:text-red-200 transition-colors">Products</a>
-              <a href="#contact" className="hover:text-red-200 transition-colors">Contact</a>
-            </nav>
-          </div>
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="sticky top-0 z-40 border-b border-primary-foreground/15 bg-primary text-primary-foreground shadow-lg">
+        <div className="container mx-auto flex items-center justify-between px-4 py-3">
+          <a href="#home" className="flex items-center gap-3" aria-label="Al-Ghofran Plastic Factory home">
+            <span className="grid h-11 w-14 place-items-center rounded-md bg-primary-foreground text-xl font-bold text-primary">GP</span>
+            <span>
+              <span className="block text-base font-bold sm:text-xl">AL-Ghofran Plastic Factory</span>
+              <span className="block text-sm opacity-85" lang="ar">مصنع الغفران للبلاستيك</span>
+            </span>
+          </a>
+          <nav className="hidden gap-6 md:flex" aria-label="Main navigation">
+            {[["Home", "home"], ["About", "about"], ["Products", "products"], ["Contact", "contact"]].map(([label, id]) => (
+              <a key={id} href={`#${id}`} className="text-sm font-medium transition-opacity hover:opacity-70">{label}</a>
+            ))}
+          </nav>
         </div>
       </header>
 
-      {/* Hero Slider */}
-      <section id="home" className="relative h-[600px] overflow-hidden">
-        <div className="relative w-full h-full">
+      <main>
+        <section id="home" className="relative h-[70vh] min-h-[520px] max-h-[700px] overflow-hidden bg-foreground">
           {slides.map((slide, index) => (
-            <div
-              key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-1000 ${
-                index === currentSlide ? 'opacity-100' : 'opacity-0'
-              }`}
-            >
-              <img
-                src={slide.image}
-                alt={slide.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                <div className="text-center text-white max-w-4xl px-4">
-                  <h2 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-in">
-                    {slide.title}
-                  </h2>
-                  <p className="text-xl md:text-2xl opacity-90 animate-fade-in">
-                    {slide.subtitle}
-                  </p>
+            <div key={slide.title} className={`absolute inset-0 transition-opacity duration-700 ${index === currentSlide ? "opacity-100" : "pointer-events-none opacity-0"}`} aria-hidden={index !== currentSlide}>
+              <img src={slide.image} alt="" className="h-full w-full object-cover" />
+              <div className="absolute inset-0 flex items-end bg-foreground/55">
+                <div className="container mx-auto px-6 pb-24 text-primary-foreground">
+                  <p className="mb-3 text-sm font-semibold uppercase">Manufacturing in Jordan since 1996</p>
+                  <h1 className="max-w-4xl text-4xl font-bold leading-tight sm:text-6xl">{slide.title}</h1>
+                  <p className="mt-4 max-w-2xl text-lg opacity-90 sm:text-2xl">{slide.subtitle}</p>
                 </div>
               </div>
             </div>
           ))}
-        </div>
-        
-        {/* Slider Controls */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-3 rounded-full transition-all duration-300"
-        >
-          <ChevronLeft size={24} />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-3 rounded-full transition-all duration-300"
-        >
-          <ChevronRight size={24} />
-        </button>
-
-        {/* Slide Indicators */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentSlide ? 'bg-white' : 'bg-white bg-opacity-50'
-              }`}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-bold text-gray-800 mb-8">About Al-Ghofran Plastic Factory</h2>
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div className="text-left">
-                <p className="text-lg text-gray-700 mb-6">
-                  Established in 1996, Al-Ghofran Plastic Factory is one of the biggest Jordanian factories 
-                  specialized in manufacturing plastic pipes and fittings of material HDPE, MDPE, LDPE, UPVC, CPVC, PPRC.
-                </p>
-                <p className="text-lg text-gray-700 mb-6">
-                  Our production facilities are equipped with the latest global machinery and operated under 
-                  the supervision of qualified engineers to serve industrial and construction sectors.
-                </p>
-                <div className="flex items-center space-x-2 text-red-600 font-semibold">
-                  <Factory size={24} />
-                  <span>ISO 9001:2015 Certified</span>
-                </div>
-              </div>
-              <div className="bg-white p-8 rounded-lg shadow-lg">
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">Our Mission</h3>
-                <p className="text-gray-700 mb-4">
-                  To achieve our vision through ambitious goals that offer the finest services to our customers 
-                  and meet their needs and aspirations.
-                </p>
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">Our Vision</h3>
-                <p className="text-gray-700">
-                  Strive to be known locally and internationally as pioneers in innovation in manufacturing 
-                  plastics industry and achieve the requirements of our customers.
-                </p>
-              </div>
-            </div>
+          <Button aria-label="Previous slide" variant="secondary" size="icon" onClick={() => setCurrentSlide((currentSlide - 1 + slides.length) % slides.length)} className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full">
+            <ChevronLeft />
+          </Button>
+          <Button aria-label="Next slide" variant="secondary" size="icon" onClick={() => setCurrentSlide((currentSlide + 1) % slides.length)} className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full">
+            <ChevronRight />
+          </Button>
+          <div className="absolute bottom-7 left-1/2 flex -translate-x-1/2 gap-2" aria-label="Choose slide">
+            {slides.map((slide, index) => (
+              <Button key={slide.title} variant={index === currentSlide ? "secondary" : "outline"} size="icon" aria-label={`Show slide ${index + 1}`} onClick={() => setCurrentSlide(index)} className="h-2 w-8 rounded-full p-0" />
+            ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Products Section */}
-      <section id="products" className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">Our Products</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 p-6 rounded-lg shadow-lg text-white hover:scale-105 transition-transform duration-300">
-              <h3 className="text-2xl font-bold mb-3">PPRC Pipes</h3>
-              <p className="mb-4">Polypropylene random copolymer pipes for hot and cold water systems</p>
-              <ul className="text-sm space-y-1">
-                <li>• Domestic hot and cold water</li>
-                <li>• Central heating systems</li>
-                <li>• Industrial applications</li>
-              </ul>
-            </div>
-            
-            <div className="bg-gradient-to-br from-green-500 to-green-600 p-6 rounded-lg shadow-lg text-white hover:scale-105 transition-transform duration-300">
-              <h3 className="text-2xl font-bold mb-3">HDPE Pipes</h3>
-              <p className="mb-4">High-density polyethylene pipes for water and sewage networks</p>
-              <ul className="text-sm space-y-1">
-                <li>• Water distribution</li>
-                <li>• Sewage systems</li>
-                <li>• Gas distribution</li>
-              </ul>
-            </div>
-            
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-lg shadow-lg text-white hover:scale-105 transition-transform duration-300">
-              <h3 className="text-2xl font-bold mb-3">UPVC Pipes</h3>
-              <p className="mb-4">Unplasticized PVC pipes for electrical and water applications</p>
-              <ul className="text-sm space-y-1">
-                <li>• Electrical conduits</li>
-                <li>• Water supply</li>
-                <li>• Telecommunications</li>
-              </ul>
-            </div>
-            
-            <div className="bg-gradient-to-br from-purple-500 to-purple-600 p-6 rounded-lg shadow-lg text-white hover:scale-105 transition-transform duration-300">
-              <h3 className="text-2xl font-bold mb-3">CPVC Pipes</h3>
-              <p className="mb-4">Chlorinated PVC pipes for hot water applications</p>
-              <ul className="text-sm space-y-1">
-                <li>• Hot water systems</li>
-                <li>• Industrial processes</li>
-                <li>• Chemical resistance</li>
-              </ul>
-            </div>
-            
-            <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-6 rounded-lg shadow-lg text-white hover:scale-105 transition-transform duration-300">
-              <h3 className="text-2xl font-bold mb-3">Corrugated Ducts</h3>
-              <p className="mb-4">Flexible corrugated ducts for electrical installations</p>
-              <ul className="text-sm space-y-1">
-                <li>• Electrical protection</li>
-                <li>• Cable management</li>
-                <li>• Easy installation</li>
-              </ul>
-            </div>
-            
-            <div className="bg-gradient-to-br from-red-500 to-red-600 p-6 rounded-lg shadow-lg text-white hover:scale-105 transition-transform duration-300">
-              <h3 className="text-2xl font-bold mb-3">Drainage Systems</h3>
-              <p className="mb-4">Complete drainage, waste and vent piping solutions</p>
-              <ul className="text-sm space-y-1">
-                <li>• Waste water systems</li>
-                <li>• Soil and waste discharge</li>
-                <li>• Ventilation systems</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-16 bg-gray-900 text-white">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">Contact Us</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="bg-red-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Mail size={32} />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Email</h3>
-              <p className="text-gray-300">info@alghofran-plastic.com</p>
-               <p className="text-gray-300">Ibrahim3212@yahoo.com</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-red-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Phone size={32} />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Phone & Fax</h3>
-              <p className="text-gray-300">Tel: +962 6 4029554</p>
-              <p className="text-gray-300">Fax: +962 6 4029556</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-red-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MapPin size={32} />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Address</h3>
-              <p className="text-gray-300">Sahab- King Abdullah II Industrial Estate</p>
-              <p className="text-gray-300">Str.8 - Building 321</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-red-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Factory size={32} />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Website</h3>
-              <p className="text-gray-300">www.ghofranplasticfactory.com</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-black text-white py-8">
-        <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center space-x-3 mb-4">
-            <div className="bg-red-600 rounded-lg p-2">
-              <span className="text-xl font-bold">GP</span>
-            </div>
+        <section id="about" className="bg-muted py-20">
+          <div className="container mx-auto grid max-w-6xl gap-12 px-4 md:grid-cols-[1.3fr_0.7fr] md:items-center">
             <div>
-              <h3 className="text-lg font-bold">AL-Ghofran Plastic Factory</h3>
-              <p className="text-sm opacity-75">مصنع الغفران للبلاستيك</p>
+              <p className="mb-3 font-semibold text-primary">Built for demanding networks</p>
+              <h2 className="text-3xl font-bold sm:text-4xl">About Al-Ghofran Plastic Factory</h2>
+              <p className="mt-6 text-lg leading-8 text-muted-foreground">Established in 1996, Al-Ghofran Plastic Factory is one of Jordan’s leading manufacturers of HDPE, MDPE, LDPE, UPVC, CPVC, and PPRC plastic pipes and fittings.</p>
+              <p className="mt-4 text-lg leading-8 text-muted-foreground">Our production facilities use modern extrusion and injection machinery under the supervision of qualified engineers, serving industrial and construction sectors with reliable products.</p>
+            </div>
+            <div className="border-l-4 border-primary bg-background p-8 shadow-sm">
+              <Factory className="mb-5 h-10 w-10 text-primary" />
+              <p className="text-3xl font-bold">ISO 9001:2015</p>
+              <p className="mt-2 text-muted-foreground">Certified quality management supporting consistent products and dependable service.</p>
             </div>
           </div>
-          <p className="text-gray-400">&copy; 2024 Al-Ghofran Plastic Factory. All rights reserved.</p>
-          <p className="text-gray-400 text-sm mt-2">Since 1996 - Leading manufacturer of plastic pipes and fittings</p>
-        </div>
+        </section>
+
+        <section id="products" className="py-20">
+          <div className="container mx-auto max-w-7xl px-4">
+            <div className="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+              <div>
+                <p className="mb-3 font-semibold text-primary">Product range</p>
+                <h2 className="text-3xl font-bold sm:text-4xl">Pipes for every application</h2>
+              </div>
+              <p className="max-w-xl text-muted-foreground">Select a category to explore the available pipe types, product photography, applications, and standards.</p>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {categories.map((item, index) => (
+                <article key={item.name} className="group overflow-hidden rounded-md border bg-card shadow-sm transition-shadow hover:shadow-lg">
+                  <div className="aspect-[4/3] overflow-hidden bg-muted">
+                    <img src={item.image} alt={`${item.name} manufactured by Al-Ghofran`} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-2xl font-bold">{item.name}</h3>
+                    <p className="mt-2 min-h-12 text-muted-foreground">{item.summary}</p>
+                    <Button onClick={() => openCategory(index)} className="mt-6 w-full justify-between">
+                      View {item.products.length} products <ArrowRight />
+                    </Button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" className="bg-foreground py-20 text-background">
+          <div className="container mx-auto max-w-6xl px-4">
+            <h2 className="mb-12 text-center text-3xl font-bold sm:text-4xl">Contact Us</h2>
+            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+              <ContactItem icon={<Mail />} title="Email" lines={["info@alghofran-plastic.com", "Ibrahim3212@yahoo.com"]} />
+              <ContactItem icon={<Phone />} title="Phone & Fax" lines={["Tel: +962 6 4029554", "Fax: +962 6 4029556"]} />
+              <ContactItem icon={<MapPin />} title="Address" lines={["Sahab – King Abdullah II Industrial Estate", "Street 8 – Building 321"]} />
+              <ContactItem icon={<Factory />} title="Website" lines={["www.ghofranplasticfactory.com"]} />
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-background/15 bg-foreground py-7 text-center text-sm text-background/70">
+        <p>© 2026 Al-Ghofran Plastic Factory. All rights reserved.</p>
       </footer>
+
+      <Dialog open={selectedCategory !== null} onOpenChange={(open) => !open && setSelectedCategory(null)}>
+        {category && product && (
+          <DialogContent className="max-h-[92vh] max-w-6xl overflow-y-auto p-0">
+            <DialogHeader className="border-b px-6 py-5 pr-14">
+              <DialogTitle className="text-2xl">{category.name}</DialogTitle>
+              <DialogDescription>{category.summary}</DialogDescription>
+            </DialogHeader>
+            <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
+              <div className="relative flex min-h-[320px] items-center justify-center bg-muted p-4 sm:min-h-[480px]">
+                <img src={product.image} alt={product.name} className="max-h-[520px] w-full object-contain" />
+                <Button aria-label="Previous product" variant="secondary" size="icon" onClick={() => changeProduct(-1)} className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full shadow-md"><ChevronLeft /></Button>
+                <Button aria-label="Next product" variant="secondary" size="icon" onClick={() => changeProduct(1)} className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full shadow-md"><ChevronRight /></Button>
+              </div>
+              <div className="flex flex-col justify-center p-6 sm:p-10">
+                <p className="mb-3 text-sm font-semibold text-primary">Product {selectedProduct + 1} of {category.products.length}</p>
+                <h3 className="text-3xl font-bold">{product.name}</h3>
+                <p className="mt-4 text-lg leading-7 text-muted-foreground">{product.description}</p>
+                <ul className="mt-6 space-y-3">
+                  {product.details.map((detail) => (
+                    <li key={detail} className="flex items-center gap-3"><span className="h-2 w-2 rounded-full bg-primary" />{detail}</li>
+                  ))}
+                </ul>
+                <div className="mt-8 grid grid-cols-3 gap-3">
+                  {category.products.map((item, index) => (
+                    <Button key={item.name} variant="outline" onClick={() => setSelectedProduct(index)} aria-label={`Show ${item.name}`} aria-pressed={index === selectedProduct} className={`h-auto aspect-[4/3] overflow-hidden p-1 ${index === selectedProduct ? "ring-2 ring-primary" : ""}`}>
+                      <img src={item.image} alt="" className="h-full w-full object-cover" />
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        )}
+      </Dialog>
     </div>
   );
 };
+
+const ContactItem = ({ icon, title, lines }: { icon: React.ReactNode; title: string; lines: string[] }) => (
+  <div className="text-center">
+    <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-full bg-primary text-primary-foreground">{icon}</div>
+    <h3 className="mb-2 text-lg font-bold">{title}</h3>
+    {lines.map((line) => <p key={line} className="text-sm leading-6 text-background/70">{line}</p>)}
+  </div>
+);
 
 export default Index;
