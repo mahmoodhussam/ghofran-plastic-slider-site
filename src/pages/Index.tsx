@@ -22,6 +22,7 @@ import pprcSpecsImage from "@/assets/products/pprc-specs-v2.jpg.asset.json";
 import hdpeImage from "@/assets/products/hdpe-v2.jpg.asset.json";
 import hdpeSpecsImage from "@/assets/products/hdpe-specs-v2.jpg.asset.json";
 import upvcImage from "@/assets/products/upvc-v2.jpg.asset.json";
+import upvcImage2 from "@/assets/products/upvc.jpg.asset.json";
 import upvcSpecsImage from "@/assets/products/upvc-specs-v2.jpg.asset.json";
 import corrugatedImage from "@/assets/products/corrugated-v2.jpg.asset.json";
 import corrugatedSizesImage from "@/assets/products/corrugated-sizes-v2.jpg.asset.json";
@@ -142,7 +143,7 @@ const categories: ProductCategory[] = [
       {
         name: "UPVC Water Pipe",
         description: "Rigid, corrosion-resistant pipe for cold-water supply and pressure applications.",
-        image: upvcImage.url,
+        image: upvcImage2.url,
         details: ["ASTM D-1785 / 1786", "Low maintenance", "Consistent internal bore"],
       },
     ],
