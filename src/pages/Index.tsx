@@ -17,17 +17,17 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import pprcImage from "@/assets/products/pprc.jpg.asset.json";
-import pprcSpecsImage from "@/assets/products/pprc_specs.jpg.asset.json";
-import hdpeImage from "@/assets/products/hdpe.jpg.asset.json";
-import hdpeSpecsImage from "@/assets/products/hdpe_specs.jpg.asset.json";
-import upvcImage from "@/assets/products/upvc.jpg.asset.json";
-import upvcSpecsImage from "@/assets/products/upvc_specs.jpg.asset.json";
-import corrugatedImage from "@/assets/products/corrugated.jpg.asset.json";
-import corrugatedSizesImage from "@/assets/products/corrugated_sizes.jpg.asset.json";
-import drainageImage from "@/assets/products/drainage.jpg.asset.json";
-import drainageSpecsImage from "@/assets/products/drainage_specs.jpg.asset.json";
-import cpvcImage from "@/assets/products/cpvc.jpg.asset.json";
+import pprcImage from "@/assets/products/pprc-v2.jpg.asset.json";
+import pprcSpecsImage from "@/assets/products/pprc-specs-v2.jpg.asset.json";
+import hdpeImage from "@/assets/products/hdpe-v2.jpg.asset.json";
+import hdpeSpecsImage from "@/assets/products/hdpe-specs-v2.jpg.asset.json";
+import upvcImage from "@/assets/products/upvc-v2.jpg.asset.json";
+import upvcSpecsImage from "@/assets/products/upvc-specs-v2.jpg.asset.json";
+import corrugatedImage from "@/assets/products/corrugated-v2.jpg.asset.json";
+import corrugatedSizesImage from "@/assets/products/corrugated-sizes-v2.jpg.asset.json";
+import drainageImage from "@/assets/products/drainage-v2.jpg.asset.json";
+import drainageSpecsImage from "@/assets/products/drainage-specs-v2.jpg.asset.json";
+import cpvcImage from "@/assets/products/cpvc-v2.jpg.asset.json";
 
 type Product = {
   name: string;
